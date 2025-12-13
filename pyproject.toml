@@ -1,0 +1,63 @@
+[project]
+name = "amplifier-module-storage-localfirst"
+version = "0.1.0"
+description = "Amplifier module for generic local-first storage with optional sync"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Salil" }
+]
+keywords = ["amplifier", "storage", "sqlite", "local-first", "offline"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+]
+
+dependencies = [
+    "amplifier-core @ git+https://github.com/microsoft/amplifier-core",
+    "aiosqlite>=0.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.1.0",
+]
+vectors = [
+    "sqlite-vec>=0.1.0",
+    "sentence-transformers>=2.2.0",
+]
+
+# Amplifier module entry point
+[project.entry-points."amplifier.modules"]
+storage-localfirst = "amplifier_module_storage_localfirst:mount"
+
+[project.urls]
+Repository = "https://github.com/salil/amplifier-module-storage-localfirst"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/amplifier_module_storage_localfirst"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
