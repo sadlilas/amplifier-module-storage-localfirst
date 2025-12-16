@@ -5,7 +5,7 @@ Generic local-first storage with optional sync for Amplifier applications.
 ## Installation
 
 ```bash
-pip install git+https://github.com/salil/amplifier-module-storage-localfirst
+pip install git+https://github.com/sadlilas/amplifier-module-storage-localfirst
 ```
 
 ## Usage

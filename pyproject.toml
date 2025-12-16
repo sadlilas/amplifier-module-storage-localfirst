@@ -42,7 +42,8 @@ vectors = [
 storage-localfirst = "amplifier_module_storage_localfirst:mount"
 
 [project.urls]
-Repository = "https://github.com/salil/amplifier-module-storage-localfirst"
+Homepage = "https://github.com/sadlilas/amplifier-module-storage-localfirst"
+Repository = "https://github.com/sadlilas/amplifier-module-storage-localfirst"
 
 [build-system]
 requires = ["hatchling"]
