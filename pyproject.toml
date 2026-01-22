@@ -39,7 +39,7 @@ vectors = [
 
 # Amplifier module entry point
 [project.entry-points."amplifier.modules"]
-storage-localfirst = "amplifier_module_storage_localfirst:mount"
+tool-storage-localfirst = "amplifier_module_storage_localfirst:mount"
 
 [project.urls]
 Homepage = "https://github.com/sadlilas/amplifier-module-storage-localfirst"

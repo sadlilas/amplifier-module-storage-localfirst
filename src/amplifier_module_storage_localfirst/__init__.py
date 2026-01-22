@@ -48,6 +48,7 @@ from amplifier_module_storage_localfirst.errors import (
 )
 from amplifier_module_storage_localfirst.protocol import LocalFirstStorage
 from amplifier_module_storage_localfirst.sqlite import SQLiteLocalFirstStorage
+from amplifier_module_storage_localfirst.tool import LocalStorageTool
 from amplifier_module_storage_localfirst.types import (
     Change,
     Conflict,
@@ -61,6 +62,7 @@ __all__ = [
     # Main classes
     "LocalFirstStorage",
     "SQLiteLocalFirstStorage",
+    "LocalStorageTool",
     # Configuration
     "StorageConfig",
     "Schema",
@@ -82,13 +84,13 @@ __all__ = [
 
 
 # Amplifier module type identifier
-__amplifier_module_type__ = "storage"
+__amplifier_module_type__ = "tool"
 
 
 async def mount(coordinator, config: dict):
     """Amplifier module entry point.
 
-    Mounts LocalFirstStorage at the 'storage' slot.
+    Mounts LocalStorageTool at the 'tools' category.
 
     Args:
         coordinator: Amplifier coordinator instance.
@@ -100,6 +102,8 @@ async def mount(coordinator, config: dict):
             - sync_interval: Seconds between background syncs (default: 60)
             - schemas: List of schema definitions
     """
+    from .tool import LocalStorageTool
+
     storage_config = StorageConfig(
         db_path=config.get("db_path", "data.db"),
         backend_url=config.get("backend_url"),
@@ -132,5 +136,12 @@ async def mount(coordinator, config: dict):
         )
         await storage.register_collection(schema)
 
-    # Mount at named slot
-    await coordinator.mount("storage", storage)
+    # Create tool wrapper and mount
+    tool = LocalStorageTool(storage=storage, config=config)
+    await coordinator.mount("tools", tool, name="local_storage")
+
+    # Return cleanup function
+    async def cleanup():
+        await storage.close()
+
+    return cleanup
